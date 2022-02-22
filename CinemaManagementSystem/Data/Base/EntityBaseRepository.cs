@@ -7,10 +7,15 @@ namespace CinemaManagementSystem.Data.Base
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        public Task AddAsync(T entity)
+        private readonly ApplicationDbContext _context;
+
+        public EntityBaseRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
+
+        public async Task AddAsync(T entity) => await _context.Set<T>().AddAsync(entity);
+        
 
         public Task DeleteAsync(int id)
         {
