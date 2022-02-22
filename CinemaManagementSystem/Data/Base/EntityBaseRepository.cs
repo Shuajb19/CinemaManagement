@@ -34,6 +34,7 @@ namespace CinemaManagementSystem.Data.Base
         {
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
