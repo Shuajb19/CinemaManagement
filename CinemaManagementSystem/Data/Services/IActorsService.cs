@@ -1,14 +1,13 @@
-﻿using CinemaManagementSystem.Data.Base;
-using CinemaManagementSystem.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using CinemaManagementSystem.Models;
+using CinemaManagementSystem.Data.Base;
 
 namespace CinemaManagementSystem.Data.Services
 {
-    public interface IActorsService : IEntityBaseRepository<Actor>
-    {
-    }
+    public interface IActorsService : IEntityBaseRepository<Actor> { }
+    
 }
 

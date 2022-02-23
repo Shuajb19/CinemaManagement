@@ -7,8 +7,12 @@ using CinemaManagementSystem.Data.Base;
 
 namespace CinemaManagementSystem.Data.Services
 {
-    public class ActorsService : EntityBaseRepository<Actor>, IActorsService
+    public class CinemasService:IEntityBaseRrepository<Cinema>, ICinemasService
     {
-        public ActorsService(ApplicationDbContext context) : base(context) { }
+        public CinemasService(ApplicationDbContext context) : base(context) 
+        { 
+
+        }
+
     }
 }
