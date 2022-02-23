@@ -1,4 +1,6 @@
+using CinemaManagementSystem.Controllers;
 using CinemaManagementSystem.Data;
+using CinemaManagementSystem.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +37,8 @@ namespace CinemaManagementSystem
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            //Services Configuration
+            IServiceCollection serviceCollection = services.AddScoped<IProducersService, ProducersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
