@@ -4,7 +4,7 @@ using CinemaManagementSystem.Models;
 
 namespace CinemaManagementSystem.Data.Services
 {
-    public interface IProducersService:IEntityBaseRepository<Producer>
+    public interface IProducersService: IEntityBaseRepository<Producer>
     {
     }
 }
