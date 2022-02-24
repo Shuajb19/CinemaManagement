@@ -7,8 +7,7 @@ using CinemaManagementSystem.Data.Base;
 
 namespace CinemaManagementSystem.Data.Services
 {
-    public interface ICinemasService : IEntityBaseRrepository<Cinema>
+    public interface ICinemasService : IEntityBaseRepository<Cinema>
     {
-
     }
 }
