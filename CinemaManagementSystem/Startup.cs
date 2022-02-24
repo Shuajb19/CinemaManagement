@@ -38,9 +38,7 @@ namespace CinemaManagementSystem
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             //Services Configuration
-            IServiceCollection serviceCollection = services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemasService, CinemasService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
