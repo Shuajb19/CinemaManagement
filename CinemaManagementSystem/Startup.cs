@@ -37,8 +37,11 @@ namespace CinemaManagementSystem
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
             //Services Configuration
             services.AddScoped<ICinemasService, CinemasService>();
+            services.AddScoped<IActorsService, ActorsService>();
+            services.AddScoped<IProducersService, ProducersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
