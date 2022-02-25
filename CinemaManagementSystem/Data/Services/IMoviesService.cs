@@ -13,5 +13,6 @@ namespace CinemaManagementSystem.Data.Services
         Task<Movie> GetMovieByIdAsync(int id);
         Task<NewMovieDropdownsVM> GetNewMovieDropdownsValues();
         Task UpdateMovieAsync(NewMovieVM data);
+        Task AddNewMovieAsync(NewMovieVM movie);
     }
 }
