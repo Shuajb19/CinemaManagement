@@ -1,10 +1,9 @@
-﻿using CinemaManagementSystem.Models;
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
+using System.Collections.Generic;
+using CinemaManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CinemaManagementSystem.Data
 {
@@ -34,5 +33,9 @@ namespace CinemaManagementSystem.Data
         public DbSet<Actor_Movie> Actors_Movies { get; set; }
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Producer> Producers { get; set; }
+
+        //Data related tables
+
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     }
 }
