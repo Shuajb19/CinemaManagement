@@ -37,5 +37,10 @@ namespace CinemaManagementSystem.Data
         //Data related tables
 
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        //Order related tables
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }
