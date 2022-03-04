@@ -14,6 +14,8 @@ using CinemaManagementSystem.Controllers;
 using Microsoft.Extensions.Configuration;
 using CinemaManagementSystem.Data.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+using CinemaManagementSystem.Data.Cart;
 
 namespace CinemaManagementSystem
 {
@@ -43,6 +45,12 @@ namespace CinemaManagementSystem
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<IMoviesService, MoviesService>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+
+            services.AddSession();
+
+
             services.AddControllersWithViews();
         }
 
@@ -64,6 +72,7 @@ namespace CinemaManagementSystem
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
