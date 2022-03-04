@@ -18,7 +18,7 @@ namespace CinemaManagementSystem.Controllers
             _moviesService = moviesService;
             _shoppingCart = shoppingCart;
         }
-        public IActionResult Index()
+        public IActionResult ShoppingCart()
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
