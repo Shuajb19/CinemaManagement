@@ -25,6 +25,7 @@ namespace CinemaManagementSystem.Data.Services
                 Description = data.Description,
                 Price = data.Price,
                 ImageURL = data.ImageURL,
+                TrailerURL = data.TrailerURL,
                 CinemaId = data.CinemaId,
                 StartDate = data.StartDate,
                 EndDate = data.EndDate,
@@ -81,6 +82,7 @@ namespace CinemaManagementSystem.Data.Services
                 dbMovie.Description = data.Description;
                 dbMovie.Price = data.Price;
                 dbMovie.ImageURL = data.ImageURL;
+                dbMovie.TrailerURL = data.TrailerURL;
                 dbMovie.CinemaId = data.CinemaId;
                 dbMovie.StartDate = data.StartDate;
                 dbMovie.EndDate = data.EndDate;
