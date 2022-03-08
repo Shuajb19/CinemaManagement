@@ -1,11 +1,11 @@
-﻿using CinemaManagementSystem.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using CinemaManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CinemaManagementSystem.Data.Cart
 {
@@ -79,6 +79,12 @@ namespace CinemaManagementSystem.Data.Cart
         public double GetShoppingCartTotal() =>_context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n =>
             n.Movie.Price * n.Amount).Sum();
             
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
+            _context.ShoppingCartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
         }
+    }
 }
 

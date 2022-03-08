@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using CinemaManagementSystem.Data;
 using Microsoft.AspNetCore.Builder;
@@ -10,12 +11,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity.UI;
+using CinemaManagementSystem.Data.Cart;
 using CinemaManagementSystem.Controllers;
 using Microsoft.Extensions.Configuration;
 using CinemaManagementSystem.Data.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
-using CinemaManagementSystem.Data.Cart;
 
 namespace CinemaManagementSystem
 {
@@ -44,6 +44,7 @@ namespace CinemaManagementSystem
             services.AddScoped<IActorsService, ActorsService>();
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<IMoviesService, MoviesService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
