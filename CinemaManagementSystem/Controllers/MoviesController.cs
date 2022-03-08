@@ -92,6 +92,7 @@ namespace CinemaManagementSystem.Controllers
                 StartDate = movieDetails.StartDate,
                 EndDate = movieDetails.EndDate,
                 ImageURL = movieDetails.ImageURL,
+                TrailerURL = movieDetails.TrailerURL,
                 MovieCategory = movieDetails.MovieCategory,
                 CinemaId = movieDetails.CinemaId,
                 ProducerId = movieDetails.ProducerId,

@@ -28,6 +28,11 @@ namespace CinemaManagementSystem.Models
         [Display(Name = "Movie poster URL")]
         [Required(ErrorMessage = "Movie poster URL is required")]
         public string ImageURL { get; set; }
+        
+        [Display(Name = "Movie trailer URL")]
+        [Required(ErrorMessage = "Movie trailer URL is required")]
+        public string TrailerURL { get; set; }
+
 
         [Display(Name = "Movie Start date")]
         [Required(ErrorMessage = "Start date is required")]
