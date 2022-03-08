@@ -20,6 +20,13 @@ namespace CinemaManagementSystem.Controllers
             _shoppingCart = shoppingCart;
             _ordersService = ordersService;
         }
+
+        public async Task<IActionResult> Index()
+        {
+            string userId = "";
+            var orders = await _ordersService.GetOrdersByUserIDAsync(userId);
+            return View(orders);
+        }
         public IActionResult ShoppingCart()
         {
             var items = _shoppingCart.GetShoppingCartItems();
