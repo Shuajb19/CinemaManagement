@@ -1,11 +1,11 @@
-﻿using CinemaManagementSystem.Data.Cart;
-using CinemaManagementSystem.Data.Services;
-using CinemaManagementSystem.Data.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using CinemaManagementSystem.Data.Cart;
+using CinemaManagementSystem.Data.Services;
+using CinemaManagementSystem.Data.ViewModels;
 
 namespace CinemaManagementSystem.Controllers
 {
@@ -13,10 +13,12 @@ namespace CinemaManagementSystem.Controllers
     {
         private readonly IMoviesService _moviesService;
         private readonly ShoppingCart _shoppingCart;
-        public OrdersController(IMoviesService moviesService, ShoppingCart shoppingCart)
+        private readonly IOrdersService _ordersService;
+        public OrdersController(IMoviesService moviesService, ShoppingCart shoppingCart, IOrdersService ordersService)
         {
             _moviesService = moviesService;
             _shoppingCart = shoppingCart;
+            _ordersService = ordersService;
         }
         public IActionResult ShoppingCart()
         {
@@ -51,7 +53,17 @@ namespace CinemaManagementSystem.Controllers
             }
             return RedirectToAction(nameof(ShoppingCart));
         }
+        public async Task<IActionResult> CompleteOrder()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            string userId = "";
+            string userEmailAddress = "";
 
+            await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
+            await _shoppingCart.ClearShoppingCartAsync();
+
+            return View("OrderCompleted");
+        }
 
     }
 }
