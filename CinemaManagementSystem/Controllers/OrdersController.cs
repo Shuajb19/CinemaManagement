@@ -63,14 +63,18 @@ namespace CinemaManagementSystem.Controllers
         public async Task<IActionResult> CompleteOrder()
         {
             var items = _shoppingCart.GetShoppingCartItems();
-            string userId = "";
-            string userEmailAddress = "";
+            if (items.Count > 0)
+            {
+                string userId = "";
+                string userEmailAddress = "";
 
-            await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
-            await _shoppingCart.ClearShoppingCartAsync();
+                await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
+                await _shoppingCart.ClearShoppingCartAsync();
 
-            return View("OrderCompleted");
+                return View("OrderCompleted");
+
+            }
+            return View("Error");
         }
-
     }
 }
