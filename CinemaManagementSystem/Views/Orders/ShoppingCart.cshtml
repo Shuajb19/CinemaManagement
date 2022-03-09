@@ -58,13 +58,13 @@
             <div class="btn-group">
                 @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
                 {
-                    if (item.Amount <= 1)
+                    if (item.Amount >= 1)
                     {
                         <a class="btn btn-outline-primary" asp-action="CompleteOrder">
                             Complete order
                         </a>
                     }
-                    
+                    break;
                 }
 
                 <a class="btn btn-outline-success" asp-controller="Movies" asp-action="Index">
