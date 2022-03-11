@@ -29,7 +29,7 @@ namespace CinemaManagementSystem.Data.Services
                 CinemaId = data.CinemaId,
                 StartDate = data.StartDate,
                 EndDate = data.EndDate,
-                MovieCategory = data.MovieCategory,
+                CategoryId = data.CategoryId,
                 ProducerId = data.ProducerId
             };
             await _context.Movies.AddAsync(newMovie);
@@ -53,6 +53,7 @@ namespace CinemaManagementSystem.Data.Services
             var movieDetails = await _context.Movies
                 .Include(c => c.Cinema)
                 .Include(p => p.Producer)
+                .Include(e => e.Category)
                 .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
                 .FirstOrDefaultAsync(n => n.Id == id);
 
@@ -65,7 +66,8 @@ namespace CinemaManagementSystem.Data.Services
             {
                 Actors = await _context.Actors.OrderBy(n => n.FullName).ToListAsync(),
                 Cinemas = await _context.Cinemas.OrderBy(n => n.Name).ToListAsync(),
-                Producers = await _context.Producers.OrderBy(n => n.FullName).ToListAsync()
+                Producers = await _context.Producers.OrderBy(n => n.FullName).ToListAsync(),
+                Categories = await _context.Category.OrderBy(n => n.MovieCategory).ToListAsync()
 
             };
 
@@ -86,7 +88,7 @@ namespace CinemaManagementSystem.Data.Services
                 dbMovie.CinemaId = data.CinemaId;
                 dbMovie.StartDate = data.StartDate;
                 dbMovie.EndDate = data.EndDate;
-                dbMovie.MovieCategory = data.MovieCategory;
+                dbMovie.CategoryId = data.CategoryId;
                 dbMovie.ProducerId = data.ProducerId;
                 await _context.SaveChangesAsync();
 

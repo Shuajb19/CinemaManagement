@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CinemaManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -43,6 +44,11 @@ namespace CinemaManagementSystem.Data.Base
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        IEnumerable<Movie> IEntityBaseRepository<T>.GetAllAsyncMovie()
+        {
+            return _context.Set<Movie>().Include(x => x.Category).ThenInclude(x => x.Movies).ThenInclude(x => x.Cinema).ToList();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CinemaManagementSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var allMovies = await _service.GetAllAsync(n => n.Cinema);
+            var allMovies =  _service.GetAllAsyncMovie();
             return View(allMovies);
         }
 
@@ -54,6 +54,7 @@ namespace CinemaManagementSystem.Controllers
             ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
             ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
             ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+            ViewBag.Categories = new SelectList(movieDropdownsData.Categories, "CategoryId", "MovieCategory");
 
             return View();
         }
@@ -68,6 +69,7 @@ namespace CinemaManagementSystem.Controllers
                 ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
                 ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
                 ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+                ViewBag.Categories = new SelectList(movieDropdownsData.Categories, "CategoryId", "MovieCategory");
 
                 return View(movie);
             }
@@ -93,7 +95,7 @@ namespace CinemaManagementSystem.Controllers
                 EndDate = movieDetails.EndDate,
                 ImageURL = movieDetails.ImageURL,
                 TrailerURL = movieDetails.TrailerURL,
-                MovieCategory = movieDetails.MovieCategory,
+                CategoryId = movieDetails.CategoryId,
                 CinemaId = movieDetails.CinemaId,
                 ProducerId = movieDetails.ProducerId,
                 ActorIds = movieDetails.Actors_Movies.Select(n => n.ActorId).ToList(),
@@ -103,6 +105,7 @@ namespace CinemaManagementSystem.Controllers
             ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
             ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
             ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+            ViewBag.Categories = new SelectList(movieDropdownsData.Categories, "CategoryId", "MovieCategory");
 
             return View(response);
         }
@@ -119,6 +122,7 @@ namespace CinemaManagementSystem.Controllers
                 ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
                 ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
                 ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+                ViewBag.Categories = new SelectList(movieDropdownsData.Categories, "CategoryId", "MovieCategory");
 
                 return View(movie);
             }

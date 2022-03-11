@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220304182235_AddMigrations")]
-    partial class AddMigrations
+    [Migration("20220311092537_Initializer")]
+    partial class Initializer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,9 +101,6 @@ namespace CinemaManagementSystem.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MovieCategory")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -115,6 +112,9 @@ namespace CinemaManagementSystem.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TrailerURL")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -149,7 +149,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(10),
                             CinemaId = 3,
                             ProducerId = 3,
-                            MovieCategory = MovieCategory.Documentary
+                            CategoryId = 2
                         },
                         new Movie()
                         {
@@ -161,7 +161,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(3),
                             CinemaId = 1,
                             ProducerId = 1,
-                            MovieCategory = MovieCategory.Action
+                            CategoryId = 3
                         },
                         new Movie()
                         {
@@ -173,7 +173,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(7),
                             CinemaId = 4,
                             ProducerId = 4,
-                            MovieCategory = MovieCategory.Horror
+                            CategoryId = 1
                         },
                         new Movie()
                         {
@@ -185,7 +185,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(-5),
                             CinemaId = 1,
                             ProducerId = 2,
-                            MovieCategory = MovieCategory.Documentary
+                            CategoryId = 3
                         },
                         new Movie()
                         {
@@ -197,7 +197,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(-2),
                             CinemaId = 1,
                             ProducerId = 3,
-                            MovieCategory = MovieCategory.Cartoon
+                            CategoryId = 2
                         },
                         new Movie()
                         {
@@ -209,7 +209,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(20),
                             CinemaId = 1,
                             ProducerId = 5,
-                            MovieCategory = MovieCategory.Drama
+                            CategoryId = 1
                         }
                     });
                     context.SaveChanges();
