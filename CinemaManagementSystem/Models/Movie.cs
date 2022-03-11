@@ -20,7 +20,10 @@ namespace CinemaManagementSystem.Models
         public string TrailerURL { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public MovieCategory MovieCategory { get; set; }
+
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
 
         //Relationships
         public List<Actor_Movie> Actors_Movies { get; set; }

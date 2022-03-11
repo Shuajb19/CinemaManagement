@@ -59,6 +59,21 @@ namespace CinemaManagementSystem.Migrations
                     b.ToTable("Actors_Movies");
                 });
 
+            modelBuilder.Entity("CinemaManagementSystem.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MovieCategory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("CinemaManagementSystem.Models.Cinema", b =>
                 {
                     b.Property<int>("Id")
@@ -87,6 +102,9 @@ namespace CinemaManagementSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
@@ -98,9 +116,6 @@ namespace CinemaManagementSystem.Migrations
 
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MovieCategory")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -118,6 +133,8 @@ namespace CinemaManagementSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CinemaId");
 
@@ -437,6 +454,12 @@ namespace CinemaManagementSystem.Migrations
 
             modelBuilder.Entity("CinemaManagementSystem.Models.Movie", b =>
                 {
+                    b.HasOne("CinemaManagementSystem.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CinemaManagementSystem.Models.Cinema", "Cinema")
                         .WithMany("Movies")
                         .HasForeignKey("CinemaId")
@@ -448,6 +471,8 @@ namespace CinemaManagementSystem.Migrations
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Cinema");
 

@@ -44,7 +44,7 @@ namespace CinemaManagementSystem.Models
 
         [Display(Name = "Select a category")]
         [Required(ErrorMessage = "Movie Category is required")]
-        public MovieCategory MovieCategory { get; set; }
+        public int CategoryId { get; set; }
 
         //Relationships
         [Display(Name = "Select actor(s)")]
