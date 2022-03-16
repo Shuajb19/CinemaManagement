@@ -9,7 +9,7 @@
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-12">
-                <div class="card-header text-white bg-info">
+                <div style="background-color: #4b0063" class="card-header text-white">
                     <p class="card-text">
                         <h5 class="card-title">
                             @item.Name
@@ -18,9 +18,18 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-6">
-                <img src="@item.ImageURL" width="100%" alt="@item.Name">
-            </div>
+            @if (!String.IsNullOrEmpty(item.ImageURL))
+            {
+                <div class="col-md-6">
+                    <img src="@item.ImageURL" width="100%" alt="@item.Name">
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6">
+                    <img src="~/Images/default-movie.jpg" width="100%" alt="@item.Name">
+                </div>
+            }
             <div class="col-md-6">
                 <div class="card-body">
                     <p class="card-text">@item.Description</p>
@@ -32,13 +41,13 @@
                         <b>Status: </b>
                         @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
                         {
-        <span class="badge bg-success text-white">AVAILABLE</span> }
+                            <span class="badge bg-success text-white">AVAILABLE</span> }
                         else if (DateTime.Now > item.EndDate)
                         {
-        <span class="badge bg-danger text-white">EXPIRED</span> }
+                            <span class="badge bg-danger text-white">EXPIRED</span> }
                         else
                         {
-        <span class="badge bg-primary text-white">UPCOMING</span>}
+                            <span class="badge bg-primary text-white">UPCOMING</span>}
                     </p>
 
                 </div>
@@ -51,13 +60,13 @@
                         </a>
                         @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
                         {
-        <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a> }
+                            <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a> }
                         else if (DateTime.Now > item.EndDate)
                         {
-        <a class="btn btn-success text-white disabled" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a> }
+                            <a class="btn btn-success text-white disabled" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a> }
                         else
                         {
-        <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>}
+                            <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@item.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>}
                     </p>
                 </div>
             </div>
