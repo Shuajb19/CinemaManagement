@@ -17,9 +17,24 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <iframe width="100%" height="100%" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+                @if (!String.IsNullOrEmpty(Model.TrailerURL))
+                {
+                    <div class="col-md-6">
+                        <iframe width="100%" height="100%" src="@Model.TrailerURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                }
+                else if (!String.IsNullOrEmpty(Model.ImageURL))
+                {
+                    <div class="col-md-6">
+                        <img width="100%" height="100%" src="@Model.ImageURL" alt="">
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6">
+                        <img width="100%" height="100%" src="~/Images/default-movie.jpg" alt="">
+                    </div>
+                }
                 <div class="col-md-6">
                     <div class="card-body">
                         <p class="card-text">@Model.Description</p>
@@ -88,7 +103,7 @@
                             {
                                 <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
                             }
-                            
+
                         </p>
                     </div>
                 </div>
