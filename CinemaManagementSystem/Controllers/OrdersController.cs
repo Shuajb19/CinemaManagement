@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using CinemaManagementSystem.Data.Cart;
 using CinemaManagementSystem.Data.Services;
 using CinemaManagementSystem.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IMoviesService _moviesService;
