@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220311093054_MovieCategory")]
-    partial class MovieCategory
+    [Migration("20220315163829_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -457,7 +457,7 @@ namespace CinemaManagementSystem.Migrations
             modelBuilder.Entity("CinemaManagementSystem.Models.Movie", b =>
                 {
                     b.HasOne("CinemaManagementSystem.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -563,6 +563,11 @@ namespace CinemaManagementSystem.Migrations
             modelBuilder.Entity("CinemaManagementSystem.Models.Actor", b =>
                 {
                     b.Navigation("Actors_Movies");
+                });
+
+            modelBuilder.Entity("CinemaManagementSystem.Models.Category", b =>
+                {
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("CinemaManagementSystem.Models.Cinema", b =>

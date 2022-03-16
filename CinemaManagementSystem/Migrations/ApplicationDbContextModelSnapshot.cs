@@ -455,7 +455,7 @@ namespace CinemaManagementSystem.Migrations
             modelBuilder.Entity("CinemaManagementSystem.Models.Movie", b =>
                 {
                     b.HasOne("CinemaManagementSystem.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -561,6 +561,11 @@ namespace CinemaManagementSystem.Migrations
             modelBuilder.Entity("CinemaManagementSystem.Models.Actor", b =>
                 {
                     b.Navigation("Actors_Movies");
+                });
+
+            modelBuilder.Entity("CinemaManagementSystem.Models.Category", b =>
+                {
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("CinemaManagementSystem.Models.Cinema", b =>

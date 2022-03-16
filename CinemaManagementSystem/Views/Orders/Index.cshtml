@@ -40,7 +40,7 @@
                         <td class="align-middle">
                             @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum().ToString("c")
                         </td>
-                        <td class="align-middle">n/a</td>
+                        <td class="align-middle">@User.Identity.Name</td>
                     </tr>
                 }
             </tbody>
