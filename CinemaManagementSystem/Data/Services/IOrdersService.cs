@@ -9,8 +9,7 @@ namespace CinemaManagementSystem.Data.Services
     public interface IOrdersService
     {
 
-        Task StoreOrderAsync (List<ShoppingCartItem> items, string userID, string userEmailAddress);
-
-        Task<List<Order>> GetOrdersByUserIDAsync(string userID);
+        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress);
+        Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole);
     }
 }

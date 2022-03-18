@@ -15,9 +15,15 @@ namespace CinemaManagementSystem.Data.Services
         {
             _context = context;
         }
-        public async Task<List<Order>> GetOrdersByUserIDAsync(string userID)
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
-            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Where(n => n.UserId == userID).ToListAsync();
+            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Include(n => n.User).ToListAsync();
+
+            if (userRole != "Admin")
+            {
+                orders = orders.Where(n => n.UserId == userId).ToList();
+            }
+
             return orders;
         }
 
@@ -34,14 +40,14 @@ namespace CinemaManagementSystem.Data.Services
 
             foreach(var item in items)
             {
-                var OrderItem = new OrderItem()
+                var orderItem = new OrderItem()
                 {
                     Amount = item.Amount,
                     MovieId = item.Movie.Id,
                     OrderId = order.Id,
                     Price = item.Movie.Price
                 };
-                await _context.OrderItems.AddAsync(OrderItem); 
+                await _context.OrderItems.AddAsync(orderItem); 
             }
 
             await _context.SaveChangesAsync();

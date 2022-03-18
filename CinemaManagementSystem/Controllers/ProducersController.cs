@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CinemaManagementSystem.Data;
 using CinemaManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
@@ -44,14 +45,14 @@ namespace CinemaManagementSystem.Controllers
         }
 
         // GET: Producers/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Producers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
@@ -66,6 +67,7 @@ namespace CinemaManagementSystem.Controllers
         }
 
         // GET: Producers/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,8 +84,7 @@ namespace CinemaManagementSystem.Controllers
         }
 
         // POST: Producers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
@@ -117,6 +118,7 @@ namespace CinemaManagementSystem.Controllers
         }
 
         // GET: Producers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +137,7 @@ namespace CinemaManagementSystem.Controllers
         }
 
         // POST: Producers/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
