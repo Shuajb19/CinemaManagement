@@ -176,7 +176,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(7),
                             CinemaId = 4,
                             ProducerId = 4,
-                            CategoryId = 6
+                            CategoryId = 4
                         },
                         new Movie()
                         {
@@ -189,7 +189,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(-5),
                             CinemaId = 1,
                             ProducerId = 2,
-                            CategoryId = 1
+                            CategoryId = 3
                         },
                         new Movie()
                         {
@@ -202,7 +202,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(-2),
                             CinemaId = 1,
                             ProducerId = 3,
-                            CategoryId = 3
+                            CategoryId = 2
                         },
                         new Movie()
                         {
@@ -220,10 +220,7 @@ namespace CinemaManagementSystem.Data
                     });
                     context.SaveChanges();
                 }
-
-
                 ////Actors & Movies
-
                 //if (!context.Actors_Movies.Any())
                 //{
                 //    context.Actors_Movies.AddRange(new List<Actor_Movie>()
