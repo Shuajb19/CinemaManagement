@@ -1,10 +1,10 @@
-﻿using CinemaManagementSystem.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
+using CinemaManagementSystem.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CinemaManagementSystem.Data
 {
@@ -104,7 +104,7 @@ namespace CinemaManagementSystem.Data
                         {
                             FullName = "Producer 1",
                             Bio = "This is the Bio of the first actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-1.jpeg"
+                            ProfilePictureURL = "https://i.guim.co.uk/img/media/c86566efe952a725ed31c29834c245653dd7ef19/0_97_3363_2018/master/3363.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=0fe825d80a347f5287afe6fc17b54314"
 
                         },
                         new Producer()
@@ -141,22 +141,24 @@ namespace CinemaManagementSystem.Data
                     {
                         new Movie()
                         {
-                            Name = "Life",
-                            Description = "This is the Life movie description",
+                            Name = "Spider-Man: No Way Home",
+                            Description = "This is the Spider-Man: No Way Home description",
                             Price = 39.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-3.jpeg",
-                            StartDate = DateTime.Now.AddDays(-10),
-                            EndDate = DateTime.Now.AddDays(10),
+                            ImageURL = "https://www.themoviedb.org/t/p/original/9lnlNvYzQ5FnbZLXzYaYHyRCFWO.jpg",
+                            TrailerURL = "https://www.youtube.com/embed/JfVOs4VSpmA",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now,
                             CinemaId = 3,
                             ProducerId = 3,
                             CategoryId = 2
                         },
                         new Movie()
                         {
-                            Name = "The Shawshank Redemption",
-                            Description = "This is the Shawshank Redemption description",
+                            Name = "The Batman",
+                            Description = "This is the 'The Batman' description",
                             Price = 29.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-1.jpeg",
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BOGE2NWUwMDItMjA4Yi00N2Y3LWJjMzEtMDJjZTMzZTdlZGE5XkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg",
+                            TrailerURL="https://www.youtube.com/embed/mqqft2x_Aa4",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(3),
                             CinemaId = 1,
@@ -165,22 +167,24 @@ namespace CinemaManagementSystem.Data
                         },
                         new Movie()
                         {
-                            Name = "Ghost",
-                            Description = "This is the Ghost movie description",
+                            Name = "Don't Look Up",
+                            Description = "This is the Don't Look Up description",
                             Price = 39.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-4.jpeg",
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNzk0OWQzMDQtODg1ZC00Yjg2LWJjYzAtNGRjMjE2M2FlYjZjXkEyXkFqcGdeQXVyMTMzNzIyNDc1._V1_.jpg",
+                            TrailerURL = "https://www.youtube.com/embed/RbIxYm3mKzI",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(7),
                             CinemaId = 4,
                             ProducerId = 4,
-                            CategoryId = 2
+                            CategoryId = 6
                         },
                         new Movie()
                         {
-                            Name = "Race",
-                            Description = "This is the Race movie description",
+                            Name = "Hive",
+                            Description = "This is the Hive movie description",
                             Price = 39.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-6.jpeg",
+                            ImageURL = "https://www.crew-united.com/Media/Images/1262/1262669/1262669.entity.jpg",
+                            TrailerURL ="https://www.youtube.com/embed/7wnrC671pZc",
                             StartDate = DateTime.Now.AddDays(-10),
                             EndDate = DateTime.Now.AddDays(-5),
                             CinemaId = 1,
@@ -189,10 +193,11 @@ namespace CinemaManagementSystem.Data
                         },
                         new Movie()
                         {
-                            Name = "Scoob",
-                            Description = "This is the Scoob movie description",
+                            Name = "No Time to Die",
+                            Description = "This is the No Time to Die description",
                             Price = 39.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-7.jpeg",
+                            ImageURL = "https://cdn.europosters.eu/image/1300/posters/james-bond-no-time-to-die-profile-i114389.jpg",
+                            TrailerURL = "https://www.youtube.com/embed/BIhNsAtPbPI",
                             StartDate = DateTime.Now.AddDays(-10),
                             EndDate = DateTime.Now.AddDays(-2),
                             CinemaId = 1,
@@ -201,10 +206,11 @@ namespace CinemaManagementSystem.Data
                         },
                         new Movie()
                         {
-                            Name = "Cold Soles",
-                            Description = "This is the Cold Soles movie description",
+                            Name = "Godzilla vs. Kong",
+                            Description = "This is the Godzilla vs. Kong description",
                             Price = 39.50,
-                            ImageURL = "http://dotnethow.net/images/movies/movie-8.jpeg",
+                            ImageURL = "https://www.themoviedb.org/t/p/original/51tAtnATqN9VizZDnCN0IdCQpXF.jpg",
+                            TrailerURL = "https://www.youtube.com/embed/odM92ap8_c0",
                             StartDate = DateTime.Now.AddDays(3),
                             EndDate = DateTime.Now.AddDays(20),
                             CinemaId = 1,
@@ -214,14 +220,17 @@ namespace CinemaManagementSystem.Data
                     });
                     context.SaveChanges();
                 }
-                //Actors & Movies
+
+
+                ////Actors & Movies
+
                 //if (!context.Actors_Movies.Any())
                 //{
                 //    context.Actors_Movies.AddRange(new List<Actor_Movie>()
                 //    {
                 //        new Actor_Movie()
                 //        {
-                //            ActorId = 1,
+                //            ActorId = 2,
                 //            MovieId = 1
                 //        },
                 //        new Actor_Movie()

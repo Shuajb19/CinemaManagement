@@ -68,6 +68,60 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+  background-color: white;
+}
+/*Register and Log-in form*/
+
+.bodyy {
+    background: url(../Images/cinenma.jpg) no-repeat;
+    background-size: cover;
 }
 
+.content {
+    margin: 8%;
+    background-color: #fff;
+    padding: 4rem 1rem 4rem 1rem;
+    -webkit-box-shadow: 13px 13px 40px -3px rgba(0,0,0,0.57);
+    box-shadow: 13px 13px 40px -3px rgba(0,0,0,0.57);
+    border-radius: 10px;
+}
 
+.signin-text{
+    font-style: normal;
+    font-weight: 600 !important;
+}
+
+.form-controls{
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border-color: #00ac96 !important;
+    border-style: solid !important;
+    border-width: 0 0 1px 0 !important;
+    padding: 0px !important;
+    color: #495057;
+    height: auto;
+    border-radius: 0;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
+.form-controls:focus{
+    color: #495057;
+    background-color: #fff;
+    border-color: #fff;
+    outline: 0;
+    box-shadow: none;
+}
+
+.btn-class {
+    border-color: #00ac96;
+    color: #00ac96;
+}
+
+    .btn-class:hover {
+        background-color: #00ac96;
+        color: white;
+    }
