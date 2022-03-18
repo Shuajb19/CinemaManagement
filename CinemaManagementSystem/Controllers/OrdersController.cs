@@ -7,6 +7,7 @@ using CinemaManagementSystem.Data.Cart;
 using CinemaManagementSystem.Data.Services;
 using CinemaManagementSystem.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CinemaManagementSystem.Controllers
 {
@@ -25,8 +26,10 @@ namespace CinemaManagementSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string userId = "";
-            var orders = await _ordersService.GetOrdersByUserIDAsync(userId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, userRole);
             return View(orders);
         }
         public IActionResult ShoppingCart()
@@ -67,8 +70,8 @@ namespace CinemaManagementSystem.Controllers
             var items = _shoppingCart.GetShoppingCartItems();
             if (items.Count > 0)
             {
-                string userId = "";
-                string userEmailAddress = "";
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string userEmailAddress = User.FindFirstValue(ClaimTypes.Email); 
 
                 await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
                 await _shoppingCart.ClearShoppingCartAsync();

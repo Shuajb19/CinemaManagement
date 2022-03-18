@@ -1,6 +1,7 @@
 ﻿using CinemaManagementSystem.Data;
 using CinemaManagementSystem.Data.Services;
 using CinemaManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ namespace CinemaManagementSystem.Controllers
         }
 
         //GET: Movies/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
@@ -59,6 +61,7 @@ namespace CinemaManagementSystem.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
@@ -78,8 +81,8 @@ namespace CinemaManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         //GET: Movies/Edit/1
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var movieDetails = await _service.GetMovieByIdAsync(id);
@@ -110,6 +113,7 @@ namespace CinemaManagementSystem.Controllers
             return View(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, NewMovieVM movie)
         {

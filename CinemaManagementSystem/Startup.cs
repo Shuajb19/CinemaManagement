@@ -16,6 +16,7 @@ using CinemaManagementSystem.Controllers;
 using Microsoft.Extensions.Configuration;
 using CinemaManagementSystem.Data.Services;
 using Microsoft.Extensions.DependencyInjection;
+using CinemaManagementSystem.Models;
 
 namespace CinemaManagementSystem
 {
@@ -36,8 +37,10 @@ namespace CinemaManagementSystem
                     Configuration.GetConnectionString("DefaultConnectionStrings")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+           // services.AddIdentityCore<ApplicationUser>();
 
             //Services Configuration
             services.AddScoped<ICinemasService, CinemasService>();
@@ -48,11 +51,10 @@ namespace CinemaManagementSystem
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
-
-            services.AddSession();
-
-
+           
             services.AddControllersWithViews();
+            services.AddSession();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

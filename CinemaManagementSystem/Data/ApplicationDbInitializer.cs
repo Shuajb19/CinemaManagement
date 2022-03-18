@@ -220,7 +220,10 @@ namespace CinemaManagementSystem.Data
                     });
                     context.SaveChanges();
                 }
+
+
                 ////Actors & Movies
+
                 //if (!context.Actors_Movies.Any())
                 //{
                 //    context.Actors_Movies.AddRange(new List<Actor_Movie>()
