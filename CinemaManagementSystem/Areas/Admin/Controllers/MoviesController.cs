@@ -79,6 +79,7 @@ namespace CinemaManagementSystem.Controllers
             }
 
             await _service.AddNewMovieAsync(movie);
+            TempData["save"] = "A new Movie has been Created!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -133,6 +134,7 @@ namespace CinemaManagementSystem.Controllers
             }
 
             await _service.UpdateMovieAsync(movie);
+            TempData["edit"] = "Movie has been updated!";
             return RedirectToAction(nameof(Index));
         }
     }

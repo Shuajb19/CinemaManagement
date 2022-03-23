@@ -61,6 +61,7 @@ namespace CinemaManagementSystem.Controllers
             {
                 _context.Add(actor);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "A new Actor has been Created!";
                 return RedirectToAction(nameof(Index));
             }
             return View(actor);
@@ -99,6 +100,7 @@ namespace CinemaManagementSystem.Controllers
                 try
                 {
                     _context.Update(actor);
+                    TempData["edit"] = "Actor has been updated!";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -145,6 +147,7 @@ namespace CinemaManagementSystem.Controllers
             var actor = await _context.Actors.FindAsync(id);
             _context.Actors.Remove(actor);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "The Actor has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 
