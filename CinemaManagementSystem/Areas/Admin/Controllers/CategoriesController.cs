@@ -11,22 +11,24 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
-    public class ProducersController : Controller
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProducersController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Producers
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Producers.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
 
-        // GET: Producers/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,40 +36,39 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (producer == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(producer);
+            return View(category);
         }
 
-        // GET: Producers/Create
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Producers/Create
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> Create([Bind("CategoryId,MovieCategory")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(producer);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(producer);
+            return View(category);
         }
 
-        // GET: Producers/Edit/5
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,21 +76,22 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers.FindAsync(id);
-            if (producer == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(producer);
+            return View(category);
         }
 
-        // POST: Producers/Edit/5
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,MovieCategory")] Category category)
         {
-            if (id != producer.Id)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -98,12 +100,12 @@ namespace CinemaManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(producer);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProducerExists(producer.Id))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -114,11 +116,10 @@ namespace CinemaManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(producer);
+            return View(category);
         }
 
-        // GET: Producers/Delete/5
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,31 +127,30 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (producer == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(producer);
+            return View(category);
         }
 
-        // POST: Producers/Delete/5
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producer = await _context.Producers.FindAsync(id);
-            _context.Producers.Remove(producer);
+            var category = await _context.Category.FindAsync(id);
+            _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProducerExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Producers.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.CategoryId == id);
         }
     }
 }

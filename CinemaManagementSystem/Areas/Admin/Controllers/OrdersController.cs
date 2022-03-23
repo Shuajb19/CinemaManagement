@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace CinemaManagementSystem.Controllers
 {
+    [Area("Admin")]
     [Authorize]
     public class OrdersController : Controller
     {
@@ -44,16 +45,21 @@ namespace CinemaManagementSystem.Controllers
             
             return View(response);
         }
-
         public async Task<IActionResult> AddItemToShoppingCart(int id)
         {
-            var item = await _moviesService.GetMovieByIdAsync(id);
-
-            if(item != null)
+            var userRoleIsAdmin = User.IsInRole("Admin");
+            if (!userRoleIsAdmin)
             {
-                _shoppingCart.AddItemToCart(item);
+                var item = await _moviesService.GetMovieByIdAsync(id);
+
+                if (item != null)
+                {
+                    _shoppingCart.AddItemToCart(item);
+                }
+                return RedirectToAction(nameof(ShoppingCart));
+
             }
-            return RedirectToAction(nameof(ShoppingCart));
+            return NotFound();
         }
         public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
         {

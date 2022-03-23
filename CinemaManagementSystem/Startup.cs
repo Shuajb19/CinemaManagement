@@ -82,6 +82,11 @@ namespace CinemaManagementSystem
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                   name: "areas",
+                   areaName: "Admin",
+                   pattern: "{controller=Movies}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Movies}/{action=Index}/{id?}");

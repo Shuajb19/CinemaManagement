@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CinemaManagementSystem.Controllers
 {
+    [Area("Admin")]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
