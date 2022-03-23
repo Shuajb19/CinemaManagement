@@ -176,7 +176,7 @@ namespace CinemaManagementSystem.Data
                             EndDate = DateTime.Now.AddDays(7),
                             CinemaId = 4,
                             ProducerId = 4,
-                            CategoryId = 4
+                            CategoryId = 3
                         },
                         new Movie()
                         {

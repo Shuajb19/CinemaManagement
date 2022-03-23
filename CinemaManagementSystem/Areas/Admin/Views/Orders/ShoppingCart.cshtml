@@ -54,7 +54,7 @@
             </tfoot>
         </table>
 
-        <div class="d-flex text-center justify-content-end">
+        <div class="d-flex text-right justify-content-end">
             
                 @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
                 {
@@ -63,6 +63,9 @@
                         <a class="btn btn-outline-primary mr-4" asp-action="CompleteOrder">
                             Complete order
                         </a>
+                        <div id="paypal-btn"></div>
+                        <span style="padding:5px"></span>
+                        
                     }
                     break;
                 }
@@ -74,3 +77,48 @@
         </div>
     </div>
 </div>
+@section scripts {
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+
+    let _total = @Html.Raw(Model.ShoppingCartTotal);
+
+    paypal.Button.render({
+        //Configure environment
+        env: 'sandbox',
+        client: {
+            sandbox: 'Af6OGPr9Bf6FtZgziAJ5DiLX9izNMNT_0nG7CA5trTORjZoGnF_Nk5H71bZdDfODzcjeKC9tc2uGkUV5'
+        },
+
+        //Customize button
+        local: 'en_US',
+        style: {
+            size: 'small',
+            color: 'gold',
+            shape: 'pill'
+        },
+        commit: true,
+
+        //Set up a payment
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: _total,
+                        currency: 'USD'
+                    },
+                }]
+            })
+        },
+
+        //Execute the payment
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                var url = '@Url.Action("CompleteOrder", "Orders", new {})';
+                window.location.href = url;
+            })
+        }
+    }, '#paypal-btn');
+</script>
+}
