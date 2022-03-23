@@ -11,21 +11,24 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
-    public class ActorsController : Controller
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ActorsController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Actors
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _context.Category.ToListAsync());
         }
-        // GET: Actors/Details/5
+
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +36,39 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(category);
         }
 
-        // GET: Actors/Create
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Actors/Create
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Actor actor)
+        public async Task<IActionResult> Create([Bind("CategoryId,MovieCategory")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(actor);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(actor);
+            return View(category);
         }
 
-        // GET: Actors/Edit/5
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,21 +76,22 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(actor);
+            return View(category);
         }
 
-        // POST: Actors/Edit/5
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Actor actor)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,MovieCategory")] Category category)
         {
-            if (id != actor.Id)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -97,12 +100,12 @@ namespace CinemaManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(actor);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ActorExists(actor.Id))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -113,11 +116,10 @@ namespace CinemaManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(actor);
+            return View(category);
         }
 
-        // GET: Actors/Delete/5
-        [Authorize(Roles = "Admin")]
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,31 +127,30 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(category);
         }
 
-        // POST: Actors/Delete/5
-        [Authorize(Roles = "Admin")]
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var actor = await _context.Actors.FindAsync(id);
-            _context.Actors.Remove(actor);
+            var category = await _context.Category.FindAsync(id);
+            _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ActorExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Actors.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.CategoryId == id);
         }
     }
 }

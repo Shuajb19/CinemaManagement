@@ -11,22 +11,22 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
-    public class CinemasController : Controller
+    [Area("Admin")]
+    public class ActorsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CinemasController(ApplicationDbContext context)
+        public ActorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Cinemas
+        // GET: Actors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cinemas.ToListAsync());
+            return View(await _context.Actors.ToListAsync());
         }
-
-        // GET: Cinemas/Details/5
+        // GET: Actors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,40 +34,39 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas
+            var actor = await _context.Actors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cinema == null)
+            if (actor == null)
             {
                 return NotFound();
             }
 
-            return View(cinema);
+            return View(actor);
         }
 
-        // GET: Cinemas/Create
+        // GET: Actors/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cinemas/Create
+        // POST: Actors/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Logo,Name,Description")] Cinema cinema)
+        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Actor actor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cinema);
+                _context.Add(actor);
                 await _context.SaveChangesAsync();
-                TempData["save"] = "A new Cinema has been Created!";
                 return RedirectToAction(nameof(Index));
             }
-            return View(cinema);
+            return View(actor);
         }
 
-        // GET: Cinemas/Edit/5
+        // GET: Actors/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -76,21 +75,21 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas.FindAsync(id);
-            if (cinema == null)
+            var actor = await _context.Actors.FindAsync(id);
+            if (actor == null)
             {
                 return NotFound();
             }
-            return View(cinema);
+            return View(actor);
         }
 
-        // POST: Cinemas/Edit/5
+        // POST: Actors/Edit/5
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Logo,Name,Description")] Cinema cinema)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Actor actor)
         {
-            if (id != cinema.Id)
+            if (id != actor.Id)
             {
                 return NotFound();
             }
@@ -99,13 +98,12 @@ namespace CinemaManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(cinema);
-                    TempData["edit"] = "Cinema has been updated!";
+                    _context.Update(actor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CinemaExists(cinema.Id))
+                    if (!ActorExists(actor.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +114,10 @@ namespace CinemaManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cinema);
+            return View(actor);
         }
 
-        // GET: Cinemas/Delete/5
+        // GET: Actors/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -128,32 +126,31 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas
+            var actor = await _context.Actors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cinema == null)
+            if (actor == null)
             {
                 return NotFound();
             }
 
-            return View(cinema);
+            return View(actor);
         }
 
-        // POST: Cinemas/Delete/5
+        // POST: Actors/Delete/5
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cinema = await _context.Cinemas.FindAsync(id);
-            _context.Cinemas.Remove(cinema);
+            var actor = await _context.Actors.FindAsync(id);
+            _context.Actors.Remove(actor);
             await _context.SaveChangesAsync();
-            TempData["delete"] = "The Cinema has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CinemaExists(int id)
+        private bool ActorExists(int id)
         {
-            return _context.Cinemas.Any(e => e.Id == id);
+            return _context.Actors.Any(e => e.Id == id);
         }
     }
 }

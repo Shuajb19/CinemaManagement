@@ -11,22 +11,23 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Controllers
 {
-    public class ProducersController : Controller
+    [Area("Admin")]
+    public class CinemasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProducersController(ApplicationDbContext context)
+        public CinemasController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Producers
+        // GET: Cinemas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Producers.ToListAsync());
+            return View(await _context.Cinemas.ToListAsync());
         }
 
-        // GET: Producers/Details/5
+        // GET: Cinemas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +35,40 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
+            var cinema = await _context.Cinemas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producer == null)
+            if (cinema == null)
             {
                 return NotFound();
             }
 
-            return View(producer);
+            return View(cinema);
         }
 
-        // GET: Producers/Create
+        // GET: Cinemas/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Producers/Create
+        // POST: Cinemas/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> Create([Bind("Id,Logo,Name,Description")] Cinema cinema)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(producer);
+                _context.Add(cinema);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "A new Cinema has been Created!";
                 return RedirectToAction(nameof(Index));
             }
-            return View(producer);
+            return View(cinema);
         }
 
-        // GET: Producers/Edit/5
+        // GET: Cinemas/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -75,21 +77,21 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers.FindAsync(id);
-            if (producer == null)
+            var cinema = await _context.Cinemas.FindAsync(id);
+            if (cinema == null)
             {
                 return NotFound();
             }
-            return View(producer);
+            return View(cinema);
         }
 
-        // POST: Producers/Edit/5
+        // POST: Cinemas/Edit/5
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Logo,Name,Description")] Cinema cinema)
         {
-            if (id != producer.Id)
+            if (id != cinema.Id)
             {
                 return NotFound();
             }
@@ -98,12 +100,13 @@ namespace CinemaManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(producer);
+                    _context.Update(cinema);
+                    TempData["edit"] = "Cinema has been updated!";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProducerExists(producer.Id))
+                    if (!CinemaExists(cinema.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +117,10 @@ namespace CinemaManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(producer);
+            return View(cinema);
         }
 
-        // GET: Producers/Delete/5
+        // GET: Cinemas/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -126,31 +129,32 @@ namespace CinemaManagementSystem.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
+            var cinema = await _context.Cinemas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (producer == null)
+            if (cinema == null)
             {
                 return NotFound();
             }
 
-            return View(producer);
+            return View(cinema);
         }
 
-        // POST: Producers/Delete/5
+        // POST: Cinemas/Delete/5
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producer = await _context.Producers.FindAsync(id);
-            _context.Producers.Remove(producer);
+            var cinema = await _context.Cinemas.FindAsync(id);
+            _context.Cinemas.Remove(cinema);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "The Cinema has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProducerExists(int id)
+        private bool CinemaExists(int id)
         {
-            return _context.Producers.Any(e => e.Id == id);
+            return _context.Cinemas.Any(e => e.Id == id);
         }
     }
 }
