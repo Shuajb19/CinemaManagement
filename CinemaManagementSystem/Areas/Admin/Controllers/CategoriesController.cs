@@ -63,6 +63,7 @@ namespace CinemaManagementSystem.Controllers
             {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "A new Category has been Created!";
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -101,6 +102,7 @@ namespace CinemaManagementSystem.Controllers
                 try
                 {
                     _context.Update(category);
+                    TempData["edit"] = "Category has been updated!";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -145,6 +147,7 @@ namespace CinemaManagementSystem.Controllers
             var category = await _context.Category.FindAsync(id);
             _context.Category.Remove(category);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "The Category has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 

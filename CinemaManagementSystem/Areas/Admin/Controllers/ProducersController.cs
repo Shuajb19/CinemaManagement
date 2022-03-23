@@ -62,6 +62,7 @@ namespace CinemaManagementSystem.Controllers
             {
                 _context.Add(producer);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "A new Producer has been Created!";
                 return RedirectToAction(nameof(Index));
             }
             return View(producer);
@@ -100,7 +101,9 @@ namespace CinemaManagementSystem.Controllers
                 try
                 {
                     _context.Update(producer);
+                    TempData["edit"] = "Producer has been updated!";
                     await _context.SaveChangesAsync();
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,6 +149,7 @@ namespace CinemaManagementSystem.Controllers
             var producer = await _context.Producers.FindAsync(id);
             _context.Producers.Remove(producer);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "The Producer has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 
