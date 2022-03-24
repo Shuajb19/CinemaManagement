@@ -28,13 +28,13 @@ namespace CinemaManagementSystem.Controllers
             return View(allMovies);
         }
 
-        public async Task<IActionResult> Filter(string searchString)
+        public  IActionResult Filter(string searchString)
         {
-            var allMovies = await _service.GetAllAsync(n => n.Cinema);
+            var allMovies = _service.GetAllAsyncMovie();
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var filteredResult = allMovies.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+                var filteredResult = allMovies.Where(n => n.Name.ToLower().Contains(searchString) || n.Description.ToLower().Contains(searchString)).ToList();
                 return View("Index", filteredResult);
             }
 

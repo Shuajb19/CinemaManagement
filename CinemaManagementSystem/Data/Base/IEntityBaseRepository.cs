@@ -11,7 +11,6 @@ namespace CinemaManagementSystem.Data.Base
     {
         Task<IEnumerable<T>> GetAllAsync();
         IEnumerable<Movie> GetAllAsyncMovie();
-        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetByIdAsync(int id);
         Task AddAsync(T entity);
         Task UpdateAsync(int id, T entity);
