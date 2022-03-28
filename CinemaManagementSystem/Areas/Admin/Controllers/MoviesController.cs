@@ -22,9 +22,9 @@ namespace CinemaManagementSystem.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var allMovies =  _service.GetAllAsyncMovie();
+            var allMovies = _service.GetAllAsyncMovie();
             return View(allMovies);
         }
 
