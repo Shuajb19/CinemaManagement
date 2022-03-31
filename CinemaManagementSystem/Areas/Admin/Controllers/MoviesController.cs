@@ -16,19 +16,30 @@ namespace CinemaManagementSystem.Controllers
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
+        private readonly ApplicationDbContext _context;
 
-        public MoviesController(IMoviesService service)
+        public MoviesController(IMoviesService service, ApplicationDbContext context)
         {
             _service = service;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            var movies = new AllMovies();
             var allMovies = _service.GetAllAsyncMovie();
-            return View(allMovies);
+            List<Movie> temp = new List<Movie>();
+            movies.Movies = allMovies;
+            var movie = allMovies.OrderByDescending(x => x.Id).ToList();
+            for (int i = 0; i <= 5; i++)
+            {
+                temp.Add(movie[i]);
+            }
+            movies.FiveMovies = temp;
+            return View(movies);
         }
 
-        public  IActionResult Filter(string searchString)
+        public IActionResult Filter(string searchString)
         {
             var allMovies = _service.GetAllAsyncMovie();
 
@@ -135,6 +146,38 @@ namespace CinemaManagementSystem.Controllers
 
             await _service.UpdateMovieAsync(movie);
             TempData["edit"] = "Movie has been updated!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: movie/Delete/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movie = await _context.Movies
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return View(movie);
+        }
+
+        // POST: movie/Delete/5
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+            TempData["delete"] = "The Movie has been deleted!";
             return RedirectToAction(nameof(Index));
         }
     }
