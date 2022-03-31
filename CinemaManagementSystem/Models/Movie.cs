@@ -37,8 +37,6 @@ namespace CinemaManagementSystem.Models
         public int ProducerId { get; set; }
         [ForeignKey("ProducerId")]
         public Producer Producer { get; set; }
-
-
     }
 
 }
