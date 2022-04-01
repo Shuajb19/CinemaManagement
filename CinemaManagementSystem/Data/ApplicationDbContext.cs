@@ -43,5 +43,7 @@ namespace CinemaManagementSystem.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CinemaManagementSystem.Models.Category> Category { get; set; }
+
+        public DbSet<Coupon> Coupons { get; set; }
     }
 }
