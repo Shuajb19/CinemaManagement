@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace CinemaManagementSystem.Models
 {
-    public class Coupon
+    public class NewCouponVM
     {
-        [Key]
         public int CouponId { get; set; }
         public string CouponCode { get; set; }
         public double Discount { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
-        public List<Coupon_Movie> Coupons_Movies { get; set; }
+        public List<int> MovieIds { get; set; }
     }
 }

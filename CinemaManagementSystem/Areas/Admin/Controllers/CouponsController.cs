@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CinemaManagementSystem.Data;
 using CinemaManagementSystem.Models;
+using CinemaManagementSystem.Data.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManagementSystem.Areas.Admin.Controllers
@@ -15,114 +16,95 @@ namespace CinemaManagementSystem.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class CouponsController : Controller
     {
+        private readonly ICouponsService _service;
         private readonly ApplicationDbContext _context;
 
-        public CouponsController(ApplicationDbContext context)
+        public CouponsController(ICouponsService service, ApplicationDbContext context)
         {
+            _service = service;
             _context = context;
         }
 
         // GET: Admin/Coupons
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Coupons.Include(c => c.Movies);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Coupons.ToListAsync());
         }
 
         // GET: Admin/Coupons/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var coupon = await _context.Coupons
-                .Include(c => c.Movies)
-                .FirstOrDefaultAsync(m => m.CouponId == id);
-            if (coupon == null)
-            {
-                return NotFound();
-            }
-
-            return View(coupon);
+            var couponDetail = await _service.GetCouponByIdAsync(id);
+            return View(couponDetail);
         }
 
         // GET: Admin/Coupons/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name");
+            var couponDropdownsData = await _service.GetNewCouponDropdownsValues();
+
+            ViewBag.Movies = new SelectList(couponDropdownsData.Movies, "Id", "Name");
+
             return View();
         }
 
         // POST: Admin/Coupons/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CouponId,CouponCode,Discount,StartDate,EndDate,MovieId")] Coupon coupon)
+        public async Task<IActionResult> Create(NewCouponVM coupon)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(coupon);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name", coupon.MovieId);
-            return View(coupon);
+                 var couponDropdownsData = await _service.GetNewCouponDropdownsValues();
+
+                ViewBag.Movies = new SelectList(couponDropdownsData.Movies, "Id", "Name");
+
+                return View(coupon);
+        }
+            await _service.AddNewCouponAsync(coupon);
+            TempData["save"] = "A new Coupon has been Created!";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Coupons/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var couponDetails = await _service.GetCouponByIdAsync(id);
+            if (couponDetails == null) return View("NotFound");
 
-            var coupon = await _context.Coupons.FindAsync(id);
-            if (coupon == null)
+            var response = new NewCouponVM()
             {
-                return NotFound();
-            }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name", coupon.MovieId);
-            return View(coupon);
+                CouponId = couponDetails.CouponId,
+                CouponCode = couponDetails.CouponCode,
+                Discount = couponDetails.Discount,
+                EndDate = couponDetails.EndDate,
+                StartDate = couponDetails.StartDate,
+                MovieIds = couponDetails.Coupons_Movies.Select(m => m.MovieId).ToList(),
+            };
+
+            var couponDropdownsData = await _service.GetNewCouponDropdownsValues();
+
+            ViewBag.Movies = new SelectList(couponDropdownsData.Movies, "Id", "Name");
+
+            return View(response);
         }
 
-        // POST: Admin/Coupons/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CouponId,CouponCode,Discount,StartDate,EndDate,MovieId")] Coupon coupon)
+        public async Task<IActionResult> Edit(int id,NewCouponVM coupon)
         {
-            if (id != coupon.CouponId)
-            {
-                return NotFound();
-            }
+            if (id != coupon.CouponId) return View("NotFound");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(coupon);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CouponExists(coupon.CouponId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var couponDropdownsData = await _service.GetNewCouponDropdownsValues();
+
+                ViewBag.Movies = new SelectList(couponDropdownsData.Movies, "Id", "Name");
+
+                return View(coupon);
             }
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name", coupon.MovieId);
-            return View(coupon);
+            await _service.UpdateCouponAsync(coupon);
+            TempData["edit"] = "Coupon has been updated!";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Coupons/Delete/5
@@ -134,7 +116,6 @@ namespace CinemaManagementSystem.Areas.Admin.Controllers
             }
 
             var coupon = await _context.Coupons
-                .Include(c => c.Movies)
                 .FirstOrDefaultAsync(m => m.CouponId == id);
             if (coupon == null)
             {
@@ -153,11 +134,6 @@ namespace CinemaManagementSystem.Areas.Admin.Controllers
             _context.Coupons.Remove(coupon);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CouponExists(int id)
-        {
-            return _context.Coupons.Any(e => e.CouponId == id);
         }
     }
 }

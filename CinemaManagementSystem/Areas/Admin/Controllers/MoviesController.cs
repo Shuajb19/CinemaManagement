@@ -143,7 +143,6 @@ namespace CinemaManagementSystem.Controllers
 
                 return View(movie);
             }
-
             await _service.UpdateMovieAsync(movie);
             TempData["edit"] = "Movie has been updated!";
             return RedirectToAction(nameof(Index));
