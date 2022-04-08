@@ -27,6 +27,8 @@ namespace CinemaManagementSystem.Models
 
         //Relationships
         public List<Actor_Movie> Actors_Movies { get; set; }
+        public List<Coupon_Movie> Coupons_Movies { get; set; }
+
 
         //Cinema
         public int CinemaId { get; set; }

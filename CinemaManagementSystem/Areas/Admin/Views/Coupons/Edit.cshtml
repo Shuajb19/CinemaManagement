@@ -1,4 +1,4 @@
-﻿@model CinemaManagementSystem.Models.Coupon
+﻿@model NewCouponVM
 
 @{
     ViewData["Title"] = "Update coupon";
@@ -7,12 +7,17 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update Actor</h1>
+            <h1>Update Coupon</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" >
+                        <label asp-for="CouponId" readonly class="control-label"></label>
+                        <input asp-for="CouponId" readonly class="form-control" />
+                        <span asp-validation-for="CouponId" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="CouponCode" class="control-label"></label>
                         <input asp-for="CouponCode" class="form-control" />
@@ -34,11 +39,10 @@
                         <span asp-validation-for="EndDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="MovieId" class="control-label"></label>
-                        <select asp-for="MovieId" class="form-control" asp-items="ViewBag.MovieId" multiple></select>
-                        <span asp-validation-for="MovieId" class="text-danger"></span>
+                        <label asp-for="MovieIds" class="control-label"></label>
+                        <select asp-for="MovieIds" class="form-control" asp-items="ViewBag.Movies" multiple></select>
+                        <span asp-validation-for="MovieIds" class="text-danger"></span>
                     </div>
-
                     <div class="form-group">
                         <input type="submit" value="Update" class="btn btn-outline-success float-right" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
