@@ -8,6 +8,7 @@ using CinemaManagementSystem.Data.Services;
 using CinemaManagementSystem.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using CinemaManagementSystem.Models;
 
 namespace CinemaManagementSystem.Controllers
 {
@@ -37,6 +38,7 @@ namespace CinemaManagementSystem.Controllers
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
+
             var response = new ShoppingCartVM()
             {
                 ShoppingCart = _shoppingCart,
@@ -45,6 +47,37 @@ namespace CinemaManagementSystem.Controllers
             
             return View(response);
         }
+        public IActionResult ShoppingCart2(Coupon coupon)
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            var couponitems = coupon.Coupons_Movies;
+
+            _shoppingCart.ShoppingCartItems = metoda(items,couponitems);
+
+            var response = new ShoppingCartVM()
+            {
+                ShoppingCart = _shoppingCart,
+                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
+            };  
+
+            return View(response);
+        }
+
+        public List<ShoppingCartItem> metoda(List<ShoppingCartItem> shoppingCartItems, List<Coupon_Movie> movies)
+        {
+            foreach (var item in shoppingCartItems)
+            {
+                foreach (var item2 in movies)
+                {
+                    if (item.Movie.Id == item2.Movie.Id)
+                    {
+                        item.Movie.Price = item2.Coupon.Discount;
+                    }
+                }
+            }
+            return shoppingCartItems;
+        }
+
         public async Task<IActionResult> AddItemToShoppingCart(int id)
         {
             var userRoleIsAdmin = User.IsInRole("Admin");

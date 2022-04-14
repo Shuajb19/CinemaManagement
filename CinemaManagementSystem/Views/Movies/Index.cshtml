@@ -2,33 +2,6 @@
 
 @{ ViewData["Title"] = "List of Movies"; }
 
-
-
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            @foreach (var item in Model)
-            {
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="@item.ImageURL" alt="First slide">
-                </div>
-            }
-            </div>
-            
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-
 <div class="row">
     @foreach (var item in Model)
     {
@@ -119,22 +92,3 @@
             </div>
         </div>}
     @await Html.PartialAsync("_CreateItem", "Movies")
-    @*@section scripts{
-            <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
-            <script type="text/javascript">
-            $(function(){
-                var save = '@TempData["save"]'
-                if(save!='') {
-                    alertify.success(save);
-                }
-                var edit = '@TempData["edit"]'
-                if(edit!='') {
-                    alertify.success(edit);
-                }
-                var del = '@TempData["delete"]'
-                if (del!='') {
-                    alertify.error(del);
-                }
-            })
-            </script>
-        }*@
