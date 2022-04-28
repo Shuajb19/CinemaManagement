@@ -58,5 +58,6 @@ namespace CinemaManagementSystem.Models
         [Display(Name = "Select a producer")]
         [Required(ErrorMessage = "Movie producer is required")]
         public int ProducerId { get; set; }
+
     }
 }
