@@ -1,40 +1,28 @@
-﻿@model AllMovies
+﻿@model IEnumerable<Movie>
+
 
 @{ ViewData["Title"] = "List of Movies";
-    var counter = 1;
 }
 
-<div class="carousel-slider">
-    <div class="slider">
-        @foreach (var item in Model.FiveMovies)
-        {
-            <span style="--i:@counter;
-                  -webkit-box-reflect: below 40px linear-gradient(transparent, transparent, #0004);">
-                <a asp-action="Details" asp-route-id="@item.Id"><img src="@item.ImageURL" alt="First slide" /></a>
-            </span>
-            counter++;
-        }
-    </div>
-
-</div>
-
 <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <a asp-action="Index2" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
-                </th>
-                <th>
-                    <a asp-action="Index2" asp-route-sortOrder="@ViewData["DateSortParm"]">StartDate</a>
-                </th>
-                <th>
-                    <a asp-action="Index2" asp-route-sortOrder="@ViewData["PriceSortParm"]">Price</a>
-                </th>
-        </thead>
-    </table>
+    <thead>
+        <tr>
+
+            <th>
+                <a asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Name)</a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartDate)</a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.Price)</a>
+            </th>
+</thead>
+</table>
+
 
 <div class="row">
-    @foreach (var item in Model.Movies)
+    @foreach (var item in Model)
     {
         <div class="col-md-4 col-xs-6 border-primary mb-3">
             <div class="card mb-3" style="max-width: 540px; -webkit-box-shadow: 4px 7px 26px 5px rgba(0,0,0,0.38); box-shadow: 4px 7px 26px 5px rgba(0,0,0,0.38);">
@@ -116,19 +104,19 @@
     @section scripts{
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
         <script type="text/javascript">
-        $(function(){
-            var save = '@TempData["save"]'
-            if(save!='') {
-                alertify.success(save);
-            }
-            var edit = '@TempData["edit"]'
-            if(edit!='') {
-                alertify.success(edit);
-            }
-            var del = '@TempData["delete"]'
-            if (del!='') {
-                alertify.error(del);
-            }
-        })
+            $(function(){
+                var save = '@TempData["save"]'
+                if(save!='') {
+                    alertify.success(save);
+                }
+                var edit = '@TempData["edit"]'
+                if(edit!='') {
+                    alertify.success(edit);
+                }
+                var del = '@TempData["delete"]'
+                if (del!='') {
+                    alertify.error(del);
+                }
+            })
         </script>
     }
