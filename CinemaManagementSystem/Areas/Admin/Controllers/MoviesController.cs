@@ -27,7 +27,7 @@ namespace CinemaManagementSystem.Controllers
         public IActionResult Index()
         {
             var movies = new AllMovies();
-            var allMovies = _service.GetAllAsyncMovie();
+            var allMovies = _service.GetAllAsyncMovie().OrderByDescending(x => x.Id);
             List<Movie> temp = new List<Movie>();
             movies.Movies = allMovies;
             var movie = allMovies.OrderByDescending(x => x.Id).ToList();
@@ -39,6 +39,37 @@ namespace CinemaManagementSystem.Controllers
             return View(movies);
         }
 
+        public async Task<IActionResult> Index2(string sortOrder, NewMovieVM movie)
+        {
+            var movies = _service.GetAllAsyncMovie().OrderByDescending(x => x.Id);
+
+            var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
+            ViewBag.Categories = new SelectList(movieDropdownsData.Categories, "CategoryId", "MovieCategory");
+
+
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["PriceSortParm"] = sortOrder == "Price" ? "price_desc" : "Price";
+            ViewData["EndDateSortParm"] = sortOrder == "Date" ? "enddate_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    movies = movies.OrderByDescending(s => s.Name);
+                    break;
+                case "Price":
+                    movies = movies.OrderBy(s => s.Price);
+                    break;
+                case "date_desc":
+                    movies = movies.OrderBy(s => s.StartDate);
+                    break;
+                default:
+                    movies = movies.OrderBy(s => s.Name);
+                    break;
+            }
+
+            return View(movies);
+        }
         public IActionResult Filter(string searchString)
         {
             var allMovies = _service.GetAllAsyncMovie();
