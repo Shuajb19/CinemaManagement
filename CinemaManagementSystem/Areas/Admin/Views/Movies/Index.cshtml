@@ -1,9 +1,28 @@
-﻿@model AllMovies
+@model AllMovies
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{ ViewData["Title"] = "List of Movies";
     var counter = 1;
 }
 
+@if (!User.IsInRole("Admin"))
+{
+    <div class="carousel-slider">
+        <div class="slider">
+            @foreach (var item in Model.FiveMovies)
+            {
+                <span style="--i:@counter;
+                  -webkit-box-reflect: below 40px linear-gradient(transparent, transparent, #0004);">
+                    <a asp-action="Details" asp-route-id="@item.Id"><img src="@item.ImageURL" alt="First slide" /></a>
+                </span>
+                counter++;
+            }
+        </div>
+    </div>
+}
+  
 <div class="carousel-slider">
     <div class="slider">
         @foreach (var item in Model.FiveMovies)
@@ -15,7 +34,6 @@
             counter++;
         }
     </div>
-
 </div>
 
 <table class="table">
@@ -33,7 +51,7 @@
         </thead>
     </table>
 
-<div class="row">
+<div class="row m-lg-4">
     @foreach (var item in Model.Movies)
     {
         <div class="col-md-4 col-xs-6 border-primary mb-3">
@@ -44,12 +62,13 @@
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Name
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a class="text-white float-right" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash ml-2"></i></a>
-                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
-                                    }
+
                                 </h5>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a class="text-white float-right" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash ml-2"></i></a>
+                                    <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                }
                             </p>
                         </div>
                     </div>
@@ -110,8 +129,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
     }
+</div>
     @await Html.PartialAsync("_CreateItem", "Movies")
     @section scripts{
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
